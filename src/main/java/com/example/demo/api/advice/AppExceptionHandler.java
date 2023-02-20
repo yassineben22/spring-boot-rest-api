@@ -1,6 +1,6 @@
 package com.example.demo.api.advice;
 
-import com.example.demo.api.exception.UserNotFound;
+import com.example.demo.api.advice.exception.UserNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,6 +28,7 @@ public class AppExceptionHandler {
     public ResponseEntity<Map<String, String>> handleInvalidArgument(Exception ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("message", ex.getMessage());
+
         return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
     }
 
@@ -36,6 +37,7 @@ public class AppExceptionHandler {
     public ResponseEntity<Map<String, String>> userNotFound(UserNotFound ex){
         Map<String, String> err = new HashMap<>();
         err.put("message", ex.getMessage());
+        ex.printStackTrace();
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
