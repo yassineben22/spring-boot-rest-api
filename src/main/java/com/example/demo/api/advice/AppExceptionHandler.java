@@ -1,5 +1,6 @@
 package com.example.demo.api.advice;
 
+import com.example.demo.api.advice.exception.AppartementNotFound;
 import com.example.demo.api.advice.exception.UserNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class AppExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(UserNotFound.class)
+    @ExceptionHandler({UserNotFound.class, AppartementNotFound.class})
     public ResponseEntity<Map<String, String>> userNotFound(UserNotFound ex){
         Map<String, String> err = new HashMap<>();
         err.put("message", ex.getMessage());

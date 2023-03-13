@@ -22,23 +22,25 @@ public class UserService {
     @Autowired
     private AppartementRepository appartementRepository;
 
-    public Iterable<UserDto> getAllUsers(){
-        return MapStruct.INSTANCE.ListUsersToListUserDtos((List<User>) repository.findAll());
+    private MapStruct map = MapStruct.INSTANCE;
+
+    public List<UserDto> getAllUsers(){
+        return map.ListUsersToListUserDtos((List<User>) repository.findAll());
     };
 
     public UserDto getUser(Long id) throws UserNotFound {
         User user = repository.findById(id).orElse(null);
         if(user == null)
             throw new UserNotFound("Utilisateur introuvable!");
-        return MapStruct.INSTANCE.UserToUserDto(user);
+        return map.UserToUserDto(user);
     }
 
-    public User addUser(UserDto request) throws ParseException {
-        User user = MapStruct.INSTANCE.UserDtoToUser(request);
+    public UserDto addUser(UserDto request) throws ParseException {
+        User user = map.UserDtoToUser(request);
         user.getAppartements().forEach(app -> {
             app.setUser(user);
         });
-        return repository.save(user);
+        return map.UserToUserDto(repository.save(user));
     }
 
 
@@ -51,11 +53,11 @@ public class UserService {
             appartementRepository.deleteAll(appartementRepository.findByUserId(id));
         }
 
-        user = MapStruct.INSTANCE.updateUser(user, request);
+        user = map.updateUser(user, request);
         for (Appartement appartement : user.getAppartements()) {
             appartement.setUser(user);
         }
-        return MapStruct.INSTANCE.UserToUserDto(repository.save(user));
+        return map.UserToUserDto(repository.save(user));
     }
 
     public Map<String, String> deleteUser(Long id) throws UserNotFound {

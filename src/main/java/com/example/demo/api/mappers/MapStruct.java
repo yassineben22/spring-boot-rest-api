@@ -2,13 +2,11 @@ package com.example.demo.api.mappers;
 
 import com.example.demo.api.dto.AppartementDto;
 import com.example.demo.api.dto.UserDto;
-import com.example.demo.api.dto.UserMinDto;
 import com.example.demo.api.model.Appartement;
 import com.example.demo.api.model.User;
 import com.example.demo.api.repository.UserRepository;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -23,23 +21,14 @@ public interface MapStruct {
 
     User UserDtoToUser(UserDto userDto);
 
-    UserMinDto UserToUserMinDtp(User user);
-
-    User UserMinDtpToUser(UserMinDto userMinDto);
-
-    List<UserMinDto> ListUsersToListUserMinDtos(List<User> users);
-
     List<UserDto> ListUsersToListUserDtos(List<User> users);
+
+    List<AppartementDto> ListAppartementsToListAppartementDtos(List<Appartement> appartements);
 
     @Mapping(target = "id", ignore = true)
     User updateUser(@MappingTarget  User user, UserDto userDto);
 
-    @BeforeMapping
-    default void deleteChildren(@MappingTarget  User user, UserDto userDto){
-        UserRepository userRepository = null;
-        if(userDto.getAppartements() != null){
-            user.getAppartements().clear();
-        }
-    }
+    @Mapping(target = "id", ignore = true)
+    Appartement updateAppartement(@MappingTarget  Appartement appartement, AppartementDto appartementDto);
     
 }

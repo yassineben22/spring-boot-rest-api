@@ -3,9 +3,6 @@ package com.example.demo.api.model;
 import com.example.demo.api.dto.AppartementDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 public class Appartement {
